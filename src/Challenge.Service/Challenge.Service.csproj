@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Challenge.Core\Challenge.Core.csproj" />
+    <ProjectReference Include="..\Challenge.Data\Challenge.Data.csproj" />
+  </ItemGroup>
+
+</Project>

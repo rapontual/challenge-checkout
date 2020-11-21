@@ -1,0 +1,49 @@
+groups:
+- name: ./rules.conf
+  rules:
+
+  # heartbeat alert
+  - alert: Heartbeat
+    expr: up == 0
+    labels:
+      severity: informational
+    annotations:
+      summary: "The Job '{{ $labels.job }}' is down in '{{ $labels.instance }}'."
+      description: "The Job '{{ $labels.job }}' is down in '{{ $labels.instance }}' for more than 0 seconds."
+
+  # Events Delivery Processor High Event Processing Error Rate
+  - alert: EventsDeliveryProcessorHighEventProcessingErrorRate
+    expr: sum(rate(farfetch_event_processing_errors_total{job="event-deliver-processor"}[1m])) / (sum(rate(farfetch_kafka_messages_consumed_total{job="event-deliver-processor"}[1m]))) > 0
+    labels:
+      severity: informational
+    annotations:
+      summary: "High error rate detected on processing messages."
+      description: "High error rate detected on processing messages."
+
+  # Events Delivery Processor High Event Delivery Error Rate
+  - alert: EventsDeliveryProcessorHighEventDeliveryErrorRate
+    expr: sum(rate(farfetch_event_delivery_errors_total{job="event-deliver-processor"}[1m])) / (sum(rate(farfetch_events_delivered_total{job="event-deliver-processor"}[1m])) + sum(rate(farfetch_event_delivery_errors_total{job="event-deliver-processor"}[1m]))) > 0.02
+    labels:
+      severity: informational
+    annotations:
+      summary: "High error rate detected on delivering messages."
+      description: "High error rate detected on delivering messages."
+    
+  # Events Delivery Processor High Event Processing Latency
+  - alert: EventsDeliveryProcessorHighEventProcessingLatency
+    expr: histogram_quantile(0.90, sum(rate(farfetch_event_processing_stage_duration_seconds_bucket{job="event-deliver-processor"}[1m])) by (le)) > 3
+    labels:
+      severity: informational  
+    annotations:
+      summary: "High latency on processing messages."
+      description: "High latency on processing messages."
+    
+  # Events Delivery Processor No Messages Consumed
+  - alert: EventsDeliveryProcessorNoMessagesConsumed
+    expr: sum(rate(farfetch_kafka_messages_consumed_total{job="event-deliver-processor", topic!~"retry.*"}[1m])) by (brokers, topic) == 0
+    for: 1m
+    labels:
+      severity: informational
+    annotations:
+      summary: "No messages consumed from topic '{{ $labels.topic }}' of the following brokers '{{ $labels.brokers }}'."
+      description: "No messages consumed from topic '{{ $labels.topic }}' of the following brokers '{{ $labels.brokers }}'."
