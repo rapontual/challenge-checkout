@@ -10,14 +10,14 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'challengelocalhinstance'
-    metrics_path: '/metrics'
-    scrape_interval: 10s
-    static_configs:
-      - targets: ['host.docker.internal:45300']
+  #- job_name: 'challengelocalhinstance'
+  #  metrics_path: '/metrics'
+  #  scrape_interval: 10s
+  #  static_configs:
+  #    - targets: ['host.docker.internal:45300', 'host.docker.internal:45301']
       
   - job_name: 'challenge.api'
     metrics_path: '/metrics'
     scrape_interval: 10s
     static_configs:
-      - targets: ['challenge.api:80', 'challenge.api:443']      
+      - targets: ['challenge.api:80']

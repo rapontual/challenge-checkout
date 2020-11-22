@@ -10,7 +10,6 @@ using Challenge.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Challenge.API.Controllers
 {
@@ -22,16 +21,13 @@ namespace Challenge.API.Controllers
 
         private readonly IPaymentTransactionRepository repository;
         private readonly IApprovePaymentService service;
-        private readonly ILogger<PaymentController> logger;
 
         public PaymentController(
             IPaymentTransactionRepository repository,
-            IApprovePaymentService service,
-            ILogger<PaymentController> logger)
+            IApprovePaymentService service)
         {
             this.repository = repository;
             this.service = service;
-            this.logger = logger;
         }
 
         [Authorize]
@@ -40,16 +36,15 @@ namespace Challenge.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(PaymentDTORequest paymentDTO)
         {
-            var userData = GetUserId();
+            // Read merchantId from token
+            var merchantId = GetUserId();
 
-            var merchantId = default(Guid);
-
-            if (string.IsNullOrWhiteSpace(userData) ||
-                !Guid.TryParse(userData, out merchantId))
+            if (merchantId == default(Guid))
             {
                 return BadRequest(InvalidLoginMessage);
             }
 
+            // Use logged in Id
             paymentDTO.MerchantId = merchantId;
 
             var validation = service.ValidateCard(
@@ -81,12 +76,9 @@ namespace Challenge.API.Controllers
         public async Task<IActionResult> Get()
         {
             // Read merchantId from token
-            var userData = GetUserId();
+            var merchantId = GetUserId();
 
-            var merchantId = default(Guid);
-
-            if (string.IsNullOrWhiteSpace(userData) ||
-                !Guid.TryParse(userData, out merchantId))
+            if (merchantId == default(Guid))
             {
                 return BadRequest(InvalidLoginMessage);
             }
@@ -108,12 +100,9 @@ namespace Challenge.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(Guid transactionId)
         {
-            var userData = GetUserId();
+            var merchantId = GetUserId();
 
-            var merchantId = default(Guid);
-
-            if (string.IsNullOrWhiteSpace(userData) ||
-                !Guid.TryParse(userData, out merchantId))
+            if (merchantId == default(Guid))
             {
                 return BadRequest(InvalidLoginMessage);
             }
@@ -133,14 +122,21 @@ namespace Challenge.API.Controllers
             return new JsonResult(result);
         }
 
-        private string GetUserId()
+        private Guid GetUserId()
         {
-            var userData = User.Claims
+            var merchantId = default(Guid);
+
+            var userData = User?.Claims?
                .Where(a => a.Type == ClaimTypes.UserData)
                .FirstOrDefault()
                .Value;
 
-            return userData;
+            if (!string.IsNullOrWhiteSpace(userData))
+            {
+                Guid.TryParse(userData, out merchantId);
+            }
+
+            return merchantId;
         }
     }
 }

@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using Challenge.API.Controllers;
 using Challenge.Core.Model;
 using Challenge.Data.Repository.Interfaces;
 using Challenge.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -21,7 +24,7 @@ namespace Challenge.Tests.Challenge.API.Tests
         {
             this.mockRepository = new Mock<ISecurityRepository>();
             this.mockTokenService = new Mock<ITokenService>();
-
+            
             this.controller = new SecurityController(this.mockRepository.Object, this.mockTokenService.Object);
         }
 
@@ -58,18 +61,42 @@ namespace Challenge.Tests.Challenge.API.Tests
         }
 
         [Test]
-        public async Task SecurityController_CreateLogin_InvalidCredentials_ShouldReturn404Async()
+        public async Task SecurityController_CreateLogin_InvalidUser_ShouldReturn404Async()
         {
-            var httpContext = new DefaultHttpContext
+            var response = await this.controller
+                .CreateLogin(new Core.DTO.UserDTO());
+
+            var x = response.GetType();
+
+            Assert.IsInstanceOf<BadRequestResult>(response);
+        }
+
+        [Test]
+        public async Task SecurityController_CreateLogin_ValidUser_ShouldReturn200Async()
+        {
+            var userId = Guid.NewGuid();
+
+            var claims = new List<Claim>()
             {
-                User = new System.Security.Claims.ClaimsPrincipal()
+                new Claim(ClaimTypes.Name, "login"),
+                new Claim(ClaimTypes.Role, "admin"),
+                new Claim(ClaimTypes.UserData, userId.ToString())
             };
 
-            this.controller.ControllerContext = new ControllerContext
+            var identity = new ClaimsIdentity(claims, "TestAuth");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+            Thread.CurrentPrincipal = claimsPrincipal;
+
+            var user = new Core.DTO.UserDTO
             {
-                HttpContext = httpContext
+                Login = "login",
+                Password = "password"
             };
 
+            var response = await this.controller
+                .CreateLogin(user);
+
+            Assert.IsInstanceOf<JsonResult>(response);
         }
     }
 }

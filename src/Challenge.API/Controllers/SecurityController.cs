@@ -53,7 +53,9 @@ namespace Challenge.API.Controllers
         [Route("create")]
         public async Task<ActionResult> CreateLogin([FromBody]UserDTO user)
         {
-            if (!ModelState.IsValid)
+            if (user == null ||
+                string.IsNullOrWhiteSpace(user.Login) ||
+                string.IsNullOrWhiteSpace(user.Password))
             {
                 return BadRequest();
             }

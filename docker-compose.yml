@@ -9,11 +9,13 @@ services:
     ports:
       - 45300:80
       - 45301:443
+    networks:
+      - challengenetwork
     restart: on-failure
     depends_on:
       - database
     command: sh -c '/wait-for db:1433'
-    
+
   database:
     image: "mcr.microsoft.com/mssql/server:2017-latest"
     environment:
@@ -21,4 +23,32 @@ services:
       - SA_PASSWORD=Challenge!password1
     ports:
       - 1433:1433
-      
+    networks:
+      - challengenetwork
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    depends_on:
+      - challenge.api
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - challengenetwork
+
+  grafana: 
+    image: grafana/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=P@ssw0rd
+
+    ports:
+      - 3000:3000
+    volumes:
+      - ./monitoring/grafana:/var/lib/grafana
+      - ./monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini
+    networks:
+      - challengenetwork
+
+networks:
+  challengenetwork:

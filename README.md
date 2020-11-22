@@ -39,11 +39,8 @@ Provides access to payments. Has these endpoints:
 ###### Locally:
 Start the Challenge.API in Visual Studio
 
-###### Just the application:
-Run the `docker-compose` in appication folder
-
 ###### Application and Monitoring
-Run the `docker-compose` in /monitoring folder
+Run the `docker-compose` in application folder
 
 ## How to use
 1. Use an RESTful API client like Postman or the Swagger endpoint: http://localhost:45300/swagger
@@ -52,3 +49,12 @@ Run the `docker-compose` in /monitoring folder
 4. If using the Swagger, click the Authorize button and enter "beaer token" with the generated token
 ![See how to authorize using Swagger](https://user-images.githubusercontent.com/8179423/99880430-24e23900-2c0b-11eb-98fb-241c6a7e16d1.png)
 5. POST/GET payments using api/payments endpoint
+
+## Monitoring
+The application monitoring is made by Prometheus, that collect the metrics and Grafana, that use dashboards to show metrics.
+
+- To access Prometheus: http://localhost:9090/
+- Prometheus metrics: http://localhost:9090/graph?g0.range_input=1h&g0.expr=http_request_duration_seconds_count&g0.tab=1&g1.range_input=1h&g1.expr=http_requests_received_total&g1.tab=1
+- Prometheus graphics: http://localhost:9090/graph?g0.range_input=5m&g0.expr=http_request_duration_seconds_count&g0.tab=0&g1.range_input=5m&g1.expr=http_requests_received_total&g1.tab=0
+
+- To access Grafana (logins is admin/P@ssw0rd): http://localhost:3000  
