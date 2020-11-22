@@ -29,7 +29,7 @@ namespace Challenge.Tests.Challenge.API.Tests
         }
 
         [Test]
-        public async Task SecurityController_Authenticate_InvalidCredentials_ShouldReturn404Async()
+        public void SecurityController_Authenticate_InvalidCredentials_ShouldReturn404()
         {
             // Arrange
             this.mockRepository
@@ -37,8 +37,7 @@ namespace Challenge.Tests.Challenge.API.Tests
                 .Returns(null as Merchant);
 
             // Act
-            var response = await this.controller
-                .Authenticate(new Core.DTO.LoginDTO());
+            var response = this.controller.Authenticate(new Core.DTO.LoginDTO());
 
             var x = response.GetType();
 
@@ -46,7 +45,7 @@ namespace Challenge.Tests.Challenge.API.Tests
         }
 
         [Test]
-        public async Task SecurityController_Authenticate_ValidCredentials_ShouldReturn200Async()
+        public void SecurityController_Authenticate_ValidCredentials_ShouldReturn200()
         {
             // Arrange
             this.mockRepository
@@ -54,17 +53,16 @@ namespace Challenge.Tests.Challenge.API.Tests
                 .Returns(new Merchant());
 
             // Act
-            var response = await this.controller
+            var response = this.controller
                 .Authenticate(new Core.DTO.LoginDTO());
 
             Assert.IsInstanceOf<OkObjectResult>(response);
         }
 
         [Test]
-        public async Task SecurityController_CreateLogin_InvalidUser_ShouldReturn404Async()
+        public void SecurityController_CreateLogin_InvalidUser_ShouldReturn404()
         {
-            var response = await this.controller
-                .CreateLogin(new Core.DTO.UserDTO());
+            var response = this.controller.CreateLogin(new Core.DTO.UserDTO());
 
             var x = response.GetType();
 
@@ -72,7 +70,7 @@ namespace Challenge.Tests.Challenge.API.Tests
         }
 
         [Test]
-        public async Task SecurityController_CreateLogin_ValidUser_ShouldReturn200Async()
+        public void SecurityController_CreateLogin_ValidUser_ShouldReturn200()
         {
             var userId = Guid.NewGuid();
 
@@ -93,8 +91,7 @@ namespace Challenge.Tests.Challenge.API.Tests
                 Password = "password"
             };
 
-            var response = await this.controller
-                .CreateLogin(user);
+            var response = this.controller.CreateLogin(user);
 
             Assert.IsInstanceOf<JsonResult>(response);
         }

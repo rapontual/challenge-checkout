@@ -34,7 +34,7 @@ namespace Challenge.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(PaymentResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(PaymentDTORequest paymentDTO)
+        public IActionResult Post(PaymentDTORequest paymentDTO)
         {
             // Read merchantId from token
             var merchantId = GetUserId();

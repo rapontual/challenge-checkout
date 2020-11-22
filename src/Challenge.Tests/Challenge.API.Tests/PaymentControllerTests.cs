@@ -56,20 +56,20 @@ namespace Challenge.Tests.Challenge.API.Tests
         }
 
         [Test]
-        public async Task PaymentController_InvalidThoken_ShouldReturnBadRequest()
+        public void PaymentController_InvalidThoken_ShouldReturnBadRequest()
         {
             // Arrange
             this.SetNotAuthenticated();
 
             // Act 
-            var response = await this.controller.Post(new PaymentDTORequest());
+            var response = this.controller.Post(new PaymentDTORequest());
 
             // Assert
             Assert.IsInstanceOf<BadRequestObjectResult>(response);
         }
 
         [Test]
-        public async Task PaymentController_InvalidPayment_ShouldReturnBadRequest()
+        public void PaymentController_InvalidPayment_ShouldReturnBadRequest()
         {
             // Arrange
             this.mockPaymentService
@@ -77,14 +77,14 @@ namespace Challenge.Tests.Challenge.API.Tests
                 .Returns("invalid");
 
             // Act 
-            var response = await this.controller.Post(new PaymentDTORequest());
+            var response = this.controller.Post(new PaymentDTORequest());
 
             // Assert
             Assert.IsInstanceOf<BadRequestObjectResult>(response);
         }
 
         [Test]
-        public async Task PaymentController_Payment_ShouldReturnResponseOk()
+        public void PaymentController_Payment_ShouldReturnResponseOk()
         {
             // Arrange
             var paymentTransacation = new Core.Model.PaymentTransaction
@@ -101,7 +101,7 @@ namespace Challenge.Tests.Challenge.API.Tests
                 .Returns(paymentTransacation);
 
             // Act 
-            var response = await this.controller.Post(new PaymentDTORequest());
+            var response = this.controller.Post(new PaymentDTORequest());
 
             // Assert
             Assert.IsInstanceOf<JsonResult>(response);

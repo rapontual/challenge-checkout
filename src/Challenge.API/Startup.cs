@@ -1,5 +1,3 @@
-using System;
-using System.Threading;
 using Challenge.API.Extensions;
 using Challenge.API.Models;
 using Challenge.Core.Settings;
@@ -11,7 +9,6 @@ using Challenge.Service.BankClient;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -57,23 +54,7 @@ namespace Challenge.API
             services.Configure<ChallengeSettings>(Configuration.GetSection("ChallengeSettings"));
 
             // EF & Repositories
-            services.AddDbContext<ChallengeDbContext>(options =>  
-            {
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("ChallengeDbContext"),
-                    sqlServerOptionsAction: sqlOptions =>
-                    {
-                        sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(5),
-                        errorNumbersToAdd: null);
-                    });
-            });
-
-
-
-            services.AddScoped<IPaymentTransactionRepository, PaymentTransactionRepository>();
-            services.AddScoped<ISecurityRepository, SecurityRepository>();
+            services.ConfigureDatabaseAndRepositories(Configuration);
 
             // Services
             services.AddScoped<IApprovePaymentService, ApprovePaymentService>();

@@ -29,7 +29,7 @@ namespace Challenge.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("login")]
-        public async Task<ActionResult> Authenticate([FromBody]LoginDTO user)
+        public ActionResult Authenticate([FromBody]LoginDTO user)
         {
             var merchant = repository.Authenticate(user.Login, user.Password);
 
@@ -51,7 +51,7 @@ namespace Challenge.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("create")]
-        public async Task<ActionResult> CreateLogin([FromBody]UserDTO user)
+        public ActionResult CreateLogin([FromBody]UserDTO user)
         {
             if (user == null ||
                 string.IsNullOrWhiteSpace(user.Login) ||
