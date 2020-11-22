@@ -36,11 +36,14 @@ Provides access to payments. Has these endpoints:
 - /api/payments/transactionId - GET the payment transaction of the logged in Merchant
 
 ## Running
-###### Locally:
-Start the Challenge.API in Visual Studio
 
 ###### Application and Monitoring
 Run the `docker-compose` in application folder
+
+###### Locally
+Start the Challenge.API in Visual Studio
+A SQL Server instance on 1433 port is necessary. If using an existing SQL Server instance, change the connection string in appsettings.json file.
+To use the container (recommended), run docker-compose first to create the container, than run the application. The other containers can be stopped by command line or your prefered container administraton tool, like Docker Dashboard or Kitematic.
 
 ## How to use
 1. Use an RESTful API client like Postman or the Swagger endpoint: http://localhost:45300/swagger
@@ -51,10 +54,10 @@ Run the `docker-compose` in application folder
 5. POST/GET payments using api/payments endpoint
 
 ## Monitoring
-The application monitoring is made by Prometheus, that collect the metrics and Grafana, that use dashboards to show metrics.
+The application is monitored by Prometheus, which collects the metrics and by Grafana, which uses dashboards to show the metrics.
 
 - To access Prometheus: http://localhost:9090/
 - Prometheus metrics: http://localhost:9090/graph?g0.range_input=1h&g0.expr=http_request_duration_seconds_count&g0.tab=1&g1.range_input=1h&g1.expr=http_requests_received_total&g1.tab=1
 - Prometheus graphics: http://localhost:9090/graph?g0.range_input=5m&g0.expr=http_request_duration_seconds_count&g0.tab=0&g1.range_input=5m&g1.expr=http_requests_received_total&g1.tab=0
 
-- To access Grafana (logins is admin/P@ssw0rd): http://localhost:3000  
+- To access Grafana (login is admin/P@ssw0rd): http://localhost:3000  
