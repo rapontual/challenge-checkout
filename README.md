@@ -4,14 +4,15 @@
 This is a challenge test for Checkout.com
 
 ## About this Challenge
-This challenge was developed using Microsoft .Net Core and the follow features
+This challenge was developed using:
 
+- Microsoft .Net Core;
 - SQL Server 2017 database;
 - Entity Framework 6;
 - Database encryption;
 - Console logging;
 - Mocked IBankApprovalService;
-- Swagger to ease testing/debuggin;
+- Swagger to ease testing/debugging;
 - Monitorization with Prometheus and Grafana;
 
 ![Basic layers diagram](https://github.com/rapontual/CheckoutChallenge/blob/master/diagram.png)
@@ -25,7 +26,7 @@ The application has two controllers:
 Provides security for the API access. Has these endpoints:
 
 - /api/security/login: used to login and obtain a JWT access token.
-- /api/security/create: creates a new login. This can only be used my an login with admin role. 
+- /api/security/create: creates a new login. This can only be used by an user with admin role. 
 
 ###### Payment
 
@@ -51,7 +52,7 @@ To use the container (recommended), run docker-compose first to create the conta
 3. Use the token generated in /api/security/login endpoint
 4. If using the Swagger, click the Authorize button and enter "beaer token" with the generated token
 ![See how to authorize using Swagger](https://user-images.githubusercontent.com/8179423/99880430-24e23900-2c0b-11eb-98fb-241c6a7e16d1.png)
-5. POST/GET payments using api/payments endpoint
+5. POST/GET payments using api/payments endpoint using the Swagger endpoints or you preferred tool, like Postman or CURL
 
 ## Monitoring
 The application is monitored by Prometheus, which collects the metrics and by Grafana, which uses dashboards to show the metrics.
@@ -61,3 +62,10 @@ The application is monitored by Prometheus, which collects the metrics and by Gr
 - Prometheus graphics: http://localhost:9090/graph?g0.range_input=5m&g0.expr=http_request_duration_seconds_count&g0.tab=0&g1.range_input=5m&g1.expr=http_requests_received_total&g1.tab=0
 
 - To access Grafana (login is admin/P@ssw0rd): http://localhost:3000  
+
+## Final notes
+- There's unit teste for all components, just missed (up to now) testes for GET payments;
+- The goal is to provide all acces between controller and services/data using the Challenge.Services layer, but it's missing migrate the respositories;
+- There's a fake class to mock IBankApprovalService (back client service);
+- I only created (up to now) a diagram do document the application structure.
+
