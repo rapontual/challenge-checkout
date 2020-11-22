@@ -64,8 +64,8 @@ The application is monitored by Prometheus, which collects the metrics and by Gr
 - To access Grafana (login is admin/P@ssw0rd): http://localhost:3000  
 
 ## Final notes
-- There's unit teste for all components, just missed (up to now) testes for GET payments;
-- The goal is to provide all acces between controller and services/data using the Challenge.Services layer, but it's missing migrate the respositories;
-- There's a fake class to mock IBankApprovalService (back client service);
-- I only created (up to now) a diagram do document the application structure.
+- There's unit tests for all components, only missing (up to now) tests for GET payments;
+- The goal is to provide all access between controllers and services/data using the `Challenge.Services` layer, but it's missing migrate the repositories;
+- There's a fake class to mock IBankApprovalService (bank client service);
+- I only created (up to now) one diagram to document the application structure.
 
