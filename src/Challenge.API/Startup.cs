@@ -2,8 +2,6 @@ using Challenge.API.Extensions;
 using Challenge.API.Models;
 using Challenge.Core.Settings;
 using Challenge.Data;
-using Challenge.Data.Repository;
-using Challenge.Data.Repository.Interfaces;
 using Challenge.Service;
 using Challenge.Service.BankClient;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,13 +30,6 @@ namespace Challenge.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            //services.AddCors(opt => 
-            //{
-            //    opt.AddPolicy(
-            //        "AllowAll",
-            //        policy => { policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); });
-            //});
 
             services.AddCors(options =>
             {

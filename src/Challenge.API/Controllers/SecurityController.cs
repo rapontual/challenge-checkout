@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Threading.Tasks;
 using Challenge.Core.DTO;
 using Challenge.Data.Repository.Interfaces;
 using Challenge.Service;
@@ -27,6 +26,7 @@ namespace Challenge.API.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("login")]
         public ActionResult Authenticate([FromBody]LoginDTO user)
