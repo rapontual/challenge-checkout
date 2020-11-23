@@ -32,9 +32,9 @@ Provides security for the API access. Has these endpoints:
 
 Provides access to payments. Has these endpoints:
 
-- /api/payments - POST a payment for the logged in Merchant
-- /api/payments - GET all payments of the logged in Merchant
-- /api/payments/transactionId - GET the payment transaction of the logged in Merchant
+- /api/payments - POST a payment for the logged User/Merchant
+- /api/payments - GET all payments of the logged User/Merchant
+- /api/payments/transactionId - GET the payment transaction of the logged User/Merchant
 
 ## Running
 
@@ -48,11 +48,11 @@ To use the container (recommended), run docker-compose first to create the conta
 
 ## How to use
 1. Use an RESTful API client like Postman or the Swagger endpoint: http://localhost:45300/swagger
-2. Login with the User/Merchant credentials. As a start up, the application will create an admin User with the credentials "challenge/password";
+2. Login with the User/Merchant credentials. When started, the application will create an admin User with the credentials "challenge/password";
 3. Use the token generated in /api/security/login endpoint
 4. If using the Swagger, click the Authorize button and enter "beaer token" with the generated token
 ![See how to authorize using Swagger](https://user-images.githubusercontent.com/8179423/99880430-24e23900-2c0b-11eb-98fb-241c6a7e16d1.png)
-5. POST/GET payments using api/payments endpoint using the Swagger endpoints or you preferred tool, like Postman or CURL
+5. POST/GET payments to api/payments endpoint using the Swagger endpoints or you preferred tool, like Postman or CURL
 
 ## Monitoring
 The application is monitored by Prometheus, which collects the metrics and by Grafana, which uses dashboards to show the metrics.
@@ -67,5 +67,6 @@ The application is monitored by Prometheus, which collects the metrics and by Gr
 - There's unit tests for all components, only missing (up to now) tests for GET payments;
 - The goal is to provide all access between controllers and services/data using the `Challenge.Services` layer, but it's missing migrate the repositories;
 - There's a fake class to mock IBankApprovalService (bank client service);
-- I only created (up to now) one diagram to document the application structure.
+- I only created (up to now) one diagram to document the application structure;
+- I used the table Merchant to store the User/Login data.
 
