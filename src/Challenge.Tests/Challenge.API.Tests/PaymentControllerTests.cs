@@ -62,7 +62,7 @@ namespace Challenge.Tests.Challenge.API.Tests
             this.SetNotAuthenticated();
 
             // Act 
-            var response = this.controller.Post(new PaymentDTORequest());
+            var response = this.controller.Post(new PaymentCreateRequestDTO());
 
             // Assert
             Assert.IsInstanceOf<BadRequestObjectResult>(response);
@@ -77,7 +77,7 @@ namespace Challenge.Tests.Challenge.API.Tests
                 .Returns("invalid");
 
             // Act 
-            var response = this.controller.Post(new PaymentDTORequest());
+            var response = this.controller.Post(new PaymentCreateRequestDTO());
 
             // Assert
             Assert.IsInstanceOf<BadRequestObjectResult>(response);
@@ -101,7 +101,7 @@ namespace Challenge.Tests.Challenge.API.Tests
                 .Returns(paymentTransacation);
 
             // Act 
-            var response = this.controller.Post(new PaymentDTORequest());
+            var response = this.controller.Post(new PaymentCreateRequestDTO());
 
             // Assert
             Assert.IsInstanceOf<JsonResult>(response);
@@ -109,7 +109,7 @@ namespace Challenge.Tests.Challenge.API.Tests
             var responseValue = ((Microsoft.AspNetCore.Mvc.JsonResult)response).Value;
             Assert.NotNull(responseValue);
 
-            var paymentResponse = responseValue as PaymentResponseDTO;
+            var paymentResponse = responseValue as PaymentCreateResponseDTO;
             Assert.NotNull(paymentResponse);
             Assert.AreEqual(paymentTransacation.Id, paymentResponse.TransactionId);
         }

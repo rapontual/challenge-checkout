@@ -118,7 +118,6 @@ namespace Challenge.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
             }
 
             // EF

@@ -64,7 +64,5 @@ namespace Challenge.API.Controllers
 
             return new JsonResult(HttpStatusCode.Created);
         }
-
-
     }
 }

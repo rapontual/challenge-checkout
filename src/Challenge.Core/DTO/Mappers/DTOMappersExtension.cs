@@ -6,7 +6,7 @@ namespace Challenge.Core.DTO.Mappers
 {
     public static class DTOMappersExtension
     {
-        public static PaymentTransaction ToDomain(this PaymentDTORequest dto)
+        public static PaymentTransaction ToDomain(this PaymentCreateRequestDTO dto)
         {
             return new PaymentTransaction
             {
@@ -23,11 +23,11 @@ namespace Challenge.Core.DTO.Mappers
             };
         }
 
-        public static PaymentDTOResponse ToDTO(this PaymentTransaction payment)
+        public static PaymentResponseDTO ToDTO(this PaymentTransaction payment)
         {
             var cardNumber = new String('X', payment.CardNumber.ToString().Length);
 
-            return new PaymentDTOResponse
+            return new PaymentResponseDTO
             {
                 Amout = payment.Amout,
                 CardNumber = cardNumber,

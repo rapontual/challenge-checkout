@@ -32,9 +32,9 @@ namespace Challenge.API.Controllers
 
         [Authorize]
         [HttpPost]
-        [ProducesResponseType(typeof(PaymentResponseDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaymentCreateResponseDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Post(PaymentDTORequest paymentDTO)
+        public IActionResult Post(PaymentCreateRequestDTO paymentDTO)
         {
             // Read merchantId from token
             var merchantId = GetUserId();
@@ -62,7 +62,7 @@ namespace Challenge.API.Controllers
 
             var paymentResponse = service.ApprovePayment(payment);
 
-            return new JsonResult(new PaymentResponseDTO
+            return new JsonResult(new PaymentCreateResponseDTO
             {
                 TransactionId = paymentResponse.Id,
                 Status = paymentResponse.Status.StatusDescription

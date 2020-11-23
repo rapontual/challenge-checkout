@@ -22,7 +22,6 @@ namespace Challenge.Service.BankClient
                    string.IsNullOrWhiteSpace(request.OwernName))
                    ? BankAporovalStatus.Denied
                    : BankAporovalStatus.Approved;
-                
         }
     }
 }

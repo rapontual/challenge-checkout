@@ -37,6 +37,7 @@ namespace Challenge.Service
                 OwernName = payment.OwernName
             };
 
+            // This should be mapped
             int statusId = 3;
 
             try
@@ -56,7 +57,6 @@ namespace Challenge.Service
                      payment.OwernName,
                      payment.Amout,
                      response.Status);
-
             }
             catch(Exception ex)
             {
@@ -70,7 +70,6 @@ namespace Challenge.Service
                     payment.OwernName,
                     payment.Amout);
             }
-                       
 
             payment.Status = new PaymentStatus
             {

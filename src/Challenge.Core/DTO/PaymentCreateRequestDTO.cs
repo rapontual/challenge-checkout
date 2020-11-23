@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Challenge.Core.DTO
 {
-    public class PaymentDTORequest
+    public class PaymentCreateRequestDTO
     {
         public Guid Id { get; set; }
 
